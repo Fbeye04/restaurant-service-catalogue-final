@@ -1,0 +1,817 @@
+:root {
+  /* colors */
+  --background-color: #f5f5dc;
+  --navbar-footer: #eee3cb;
+  --text-burger: #333333;
+
+  /* unattached colors */
+  --black: #000000;
+  --light-grey: #666666;
+  --orange: #ffa500;
+  --red: #ff6347;
+  --custom-brown: #8b4513;
+
+  /* font families*/
+  font-family: 'Montserrat', serif;
+
+  /* font size*/
+  font-size: 16px;
+
+  /* font weight*/
+  --fw-regular: 300;
+  --fw-semi-bold: 500;
+  --fw-bold: 700;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*Removes web default styles*/
+* {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  list-style: none;
+  text-decoration: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+/*style for skip link*/
+.skip-link {
+  position: absolute;
+  top: -2.5rem;
+  left: 0;
+  padding: 0.5rem;
+  background-color: var(--navbar-footer);
+  color: var(--text-burger);
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eee3cb;
+  box-shadow: 0 0.5rem 1rem 0.5rem var(--text-burger);
+  padding: 0 2rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.nav h1 {
+  font-size: 1.5rem;
+  color: #000000;
+  font-weight: var(--fw-bold);
+}
+
+.nav span {
+  display: block;
+  color: var(--red);
+}
+
+/* Update navigation links for proper touch targets */
+.nav a {
+  color: var(--text-burger);
+  font-weight: var(--fw-semi-bold);
+  padding: 12px;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav ul li a:hover {
+  background-color: var(--navbar-footer);
+  width: 100%;
+  outline: 3px solid var(--orange);
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: block;
+  font-size: 2rem;
+}
+
+.menu-toggle,
+.close-button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav .sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100%;
+  width: 15rem;
+  z-index: 999; /* Ensuring the sidebar is in front of other elements */
+  background-color: #eee3cb67;
+  box-shadow: -0.6rem 0 0.6rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 3rem 2rem;
+  backdrop-filter: blur(0.6rem); /* give blur effect for sidebar */
+  transition: left 0.3s ease-in-out;
+}
+
+.nav .sidebar.active {
+  left: 0;
+}
+
+.nav .sidebar .close-button {
+  position: absolute;
+  top: 1rem;
+  background: none;
+  cursor: pointer;
+  color: var(--text-burger);
+  font-size: 1.5rem;
+  transition: color;
+  border: none;
+}
+
+.nav .sidebar .close-button:hover {
+  color: var(--red);
+}
+
+.nav .sidebar li {
+  margin-bottom: 1.5rem;
+}
+
+.nav .sidebar a {
+  color: var(--text-burger);
+  font-weight: var(--fw-bold);
+}
+
+/* Add overlay when sidebar is open */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 998;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+.nav .sidebar .side {
+  margin: 1rem 0;
+}
+
+/* Main navigation (desktop) */
+.nav .main-nav {
+  display: none; /* Disembunyikan di mobile */
+}
+
+.hero {
+  max-width: 60rem;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0.8;
+}
+
+.container .restaurant-list h2 {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 1.3rem;
+  margin: 0 auto;
+  max-width: 60rem;
+}
+
+.card {
+  background-color: #ffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 8px;
+  transition: transform 0.2s;
+  outline: none;
+}
+
+.card:hover,
+.card:focus {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  outline: 3px solid var(--orange); /* Add visible focus indicator */
+}
+
+.card-image {
+  position: relative;
+  height: 12.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  overflow: hidden;
+}
+
+.restaurant-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-image .city {
+  background-color: #ffff;
+  padding: 0.3rem 0.6rem;
+  font-weight: var(--fw-bold);
+  position: absolute;
+  top: 0.7rem;
+  left: 0rem;
+  border-radius: 0 0.25rem 0.25rem;
+}
+
+.card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.card-rating {
+  font-weight: var(--fw-semi-bold);
+  font-size: 0.9rem;
+}
+
+.card-description {
+  color: var(--text-burger);
+  font-size: 0.9em;
+  font-weight: var(--fw-regular);
+}
+
+.card-rating {
+  color: var(--orange);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.error-message {
+  text-align: center;
+  color: var(--red);
+  padding: 2rem;
+  font-weight: var(--fw-semi-bold);
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+/* Improve card link accessibility */
+.card a:focus {
+  outline: none;
+}
+
+.card:focus-within {
+  outline: 3px solid var(--orange);
+  transform: scale(1.02);
+}
+
+/* Loading state styles */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-weight: var(--fw-semi-bold);
+}
+
+/* Menambahkan styles untuk halaman detail di bawah styles yang sudah ada */
+.restaurant-detail {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.restaurant-detail .loading {
+  text-align: center;
+  padding: 2rem;
+  font-weight: var(--fw-semi-bold);
+}
+
+.detail {
+  background-color: #ffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.restaurant__name {
+  font-size: 2rem;
+  font-weight: var(--fw-bold);
+  color: var(--text-burger);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.restaurant__poster {
+  width: 100%;
+  max-height: 25rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.restaurant__info {
+  margin-bottom: 2rem;
+}
+
+.restaurant__info h3,
+.restaurant__menu h3,
+.restaurant__reviews h3 {
+  font-size: 1.5rem;
+  font-weight: var(--fw-bold);
+  color: var(--text-burger);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--navbar-footer);
+  padding-bottom: 0.5rem;
+}
+
+.restaurant__info h4,
+.restaurant__menu h4 {
+  font-size: 1.1rem;
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-burger);
+  margin: 1rem 0 0.5rem;
+}
+
+.restaurant__info p {
+  color: var(--light-grey);
+  line-height: 1.6;
+}
+
+.restaurant__menu {
+  margin-bottom: 2rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.restaurant__menu .foods,
+.restaurant__menu .drinks {
+  background-color: var(--background-color);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.restaurant__menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.restaurant__menu li {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--navbar-footer);
+  color: var(--text-burger);
+}
+
+.restaurant__menu li:last-child {
+  border-bottom: none;
+}
+
+.reviews-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.review-item {
+  background-color: var(--background-color);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-name {
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-burger);
+}
+
+.review-date {
+  font-size: 0.9rem;
+  color: var(--light-grey);
+}
+
+.review-text {
+  color: var(--text-burger);
+  line-height: 1.5;
+}
+
+/* File: src/styles/main.css */
+/* Tambahkan di bawah styles yang sudah ada */
+
+.restaurant__info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.like {
+  font-size: 1.8rem;
+  position: relative;
+  background-color: var(--background-color);
+  border: none;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.like:hover {
+  transform: scale(1.1);
+  background-color: var(--navbar-footer);
+}
+
+.like i {
+  color: var(--red);
+}
+
+.like:focus {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+.like:active {
+  transform: scale(0.95);
+}
+
+.content {
+  padding: 2rem 1rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.content__heading {
+  font-size: 2rem;
+  font-weight: var(--fw-bold);
+  color: var(--text-burger);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#empty-favorite-message {
+  text-align: center;
+  padding: 2rem;
+  background-color: #ffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#empty-favorite-message p {
+  color: var(--light-grey);
+  font-weight: var(--fw-semi-bold);
+  font-size: 1.1rem;
+}
+
+/* Menyesuaikan margin untuk container kartu di halaman favorite */
+.content .card-container {
+  margin-top: 0;
+}
+
+/* Tambahkan setelah style card yang sudah ada */
+.card-detail-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-weight: var(--fw-semi-bold);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  min-height: 44px;
+}
+
+.card-detail-button:hover {
+  background-color: var(--custom-brown);
+  transform: translateY(-2px);
+}
+
+.card-detail-button:focus {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+.card-detail-button:active {
+  transform: translateY(0);
+}
+
+.review-form {
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+}
+
+.review-form h4 {
+  font-size: 1.2rem;
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-burger);
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-burger);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--navbar-footer);
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.character-count {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--light-grey);
+  margin-top: 0.25rem;
+}
+
+.submit-review {
+  background-color: var(--orange);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-weight: var(--fw-semi-bold);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.submit-review:hover {
+  background-color: var(--custom-brown);
+}
+
+.submit-review:disabled {
+  background-color: var(--light-grey);
+  cursor: not-allowed;
+}
+
+.review-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  display: none;
+}
+
+.review-message.success {
+  display: block;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.review-message.error {
+  display: block;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Loading Spinner */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--background-color);
+  border-bottom-color: var(--orange);
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
+.button-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 8px;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Toast Notification */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.toast {
+  min-width: 250px;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.toast.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.footer {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: var(--fw-semi-bold);
+}
+
+@media (min-width: 37.5rem) {
+  .hero-image {
+    max-width: 100%;
+  }
+
+  /* add card layouts that appear in one column on the tablet */
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 1.3rem;
+  }
+
+  .card img {
+    height: 200px;
+  }
+
+  .content {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 62.5rem) {
+  .nav {
+    padding: 0.5rem 1.5rem;
+  }
+
+  .nav ul li a:hover {
+    background-color: #aca38f47;
+  }
+
+  .nav span {
+    display: inline;
+  }
+
+  .nav .main-nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav .main-nav a {
+    font-weight: var(--fw-bold);
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .nav .sidebar {
+    display: none;
+  }
+
+  .hero-image {
+    min-width: 62.5rem;
+    width: 100%;
+  }
+
+  /* add card layouts that appear in one column on the desktop */
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 1rem auto;
+  }
+
+  .card img {
+    height: 220px;
+  }
+
+  .detail {
+    padding: 2rem;
+  }
+
+  .restaurant__poster {
+    max-height: 30rem;
+  }
+
+  .reviews-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content {
+    padding: 3rem 2rem;
+  }
+}
