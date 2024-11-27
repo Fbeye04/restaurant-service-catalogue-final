@@ -1,11 +1,9 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
   entry: {
@@ -45,29 +43,6 @@ module.exports = {
           globOptions: {
             ignore: ['**/images/icons/**'], // Ignore icons as they'll be handled by pwa-manifest
           },
-        },
-      ],
-    }),
-    new WebpackPwaManifest({
-      name: 'RestoMate',
-      short_name: 'RestoMate',
-      description:
-        'RestoMate is your go-to app for finding the best restaurants around! Browse, save your favorites, and explore detailed reviews and menus—all in one place.',
-      background_color: '#f5f5dc',
-      theme_color: '#eee3cb',
-      display: 'standalone',
-      orientation: 'any',
-      start_url: './index.html',
-      publicPath: '/',
-      fingerprints: true,
-      inject: true,
-      ios: true,
-      icons: [
-        {
-          src: path.resolve('src/public/images/icons/icon-512x512.png'),
-          sizes: [72, 96, 128, 144, 152, 192, 384, 512],
-          destination: path.join('images', 'icons'),
-          purpose: 'any maskable',
         },
       ],
     }),
