@@ -6,53 +6,69 @@ Before(({ I }) => {
   I.amOnPage('/#/favorite');
 });
 
-Scenario('showing empty liked restaurants', ({ I }) => {
-  I.see("You don't have any favorite restaurant yet", '.error-message');
+Scenario('showing empty favorite restaurants', ({ I }) => {
+  I.seeElement('#restaurant-list');
+  I.see(
+    "You haven't added any restaurants to your favorites yet",
+    '.empty-favorite-message'
+  );
 });
 
 Scenario('liking one restaurant', async ({ I }) => {
-  I.see("You don't have any favorite restaurant yet", '.error-message');
+  I.see(
+    "You haven't added any restaurants to your favorites yet",
+    '.empty-favorite-message'
+  );
   I.amOnPage('/');
 
-  // Melihat card restoran pertama
-  I.seeElement('.card');
-  const firstRestaurant = locate('.card-title').first();
+  // Melihat restaurant pertama dan mengklik untuk detail
+  I.seeElement('.restaurant__title a');
+  const firstRestaurant = locate('.restaurant__title a').first();
   const firstRestaurantTitle = await I.grabTextFrom(firstRestaurant);
   I.click(firstRestaurant);
 
-  // Like the restaurant
+  // Melihat tombol like dan mengkliknya
   I.seeElement('#likeButton');
   I.click('#likeButton');
 
-  // Go to favorite page & verify
+  // Pergi ke halaman favorite
   I.amOnPage('/#/favorite');
-  I.seeElement('.card');
-  const likedRestaurantTitle = await I.grabTextFrom('.card-title');
+  I.seeElement('.restaurant-item');
+
+  // Memverifikasi data restaurant yang disukai
+  const likedRestaurantTitle = await I.grabTextFrom('.restaurant__title');
   assert.strictEqual(firstRestaurantTitle, likedRestaurantTitle);
 });
 
 Scenario('unliking one restaurant', async ({ I }) => {
-  I.see("You don't have any favorite restaurant yet", '.error-message');
+  I.see(
+    "You haven't added any restaurants to your favorites yet",
+    '.empty-favorite-message'
+  );
 
-  // Like a restaurant first
+  // Like restaurant dulu
   I.amOnPage('/');
-  I.seeElement('.card');
-  I.click(locate('.card-title').first());
+  I.seeElement('.restaurant__title a');
+  I.click(locate('.restaurant__title a').first());
   I.seeElement('#likeButton');
   I.click('#likeButton');
 
-  // Go to favorite page
+  // Pergi ke halaman favorite
   I.amOnPage('/#/favorite');
-  I.seeElement('.card');
+  I.seeElement('.restaurant-item');
 
-  // Click the restaurant to unlike
-  I.click(locate('.card-title').first());
+  // Klik restaurant yang disukai
+  I.click('.restaurant__title a');
 
-  // Unlike the restaurant
-  I.seeElement('[aria-label="unlike this restaurant"]');
+  // Unlike restaurant
+  I.seeElement('#likeButton');
   I.click('#likeButton');
 
-  // Back to favorite page & verify
+  // Kembali ke halaman favorite
   I.amOnPage('/#/favorite');
-  I.see("You don't have any favorite restaurant yet", '.error-message');
+  I.see(
+    "You haven't added any restaurants to your favorites yet",
+    '.empty-favorite-message'
+  );
+  I.dontSeeElement('.restaurant-item');
 });
