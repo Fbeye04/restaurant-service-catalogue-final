@@ -182,6 +182,40 @@ const createButtonLoadingTemplate = () => `
   <span class="button-loader"></span>
 `;
 
+const createSkeletonRestaurantTemplate = (count) => {
+  let template = '';
+  for (let i = 0; i < count; i += 1) {
+    template += `
+      <article class="card is-loading">
+        <div class="card-image skeleton"></div>
+        <div class="card-content">
+          <div class="card-rating skeleton"></div>
+          <h3 class="card-title skeleton"></h3>
+          <p class="card-description skeleton"></p>
+        </div>
+      </article>
+    `;
+  }
+  return template;
+};
+
+const createSkeletonDetailTemplate = () => `
+  <div class="detail is-loading">
+    <h2 class="restaurant__name skeleton"></h2>
+    <div class="restaurant__poster skeleton"></div>
+    <div class="restaurant__info">
+      <h3 class="skeleton"></h3>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </div>
+    <div class="restaurant__menu">
+      <h3 class="skeleton"></h3>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </div>
+  </div>
+`;
+
 export {
   createRestaurantCard,
   createRestaurantDetailTemplate,
@@ -190,4 +224,6 @@ export {
   createReviewFormTemplate,
   createLoadingTemplate,
   createButtonLoadingTemplate,
+  createSkeletonRestaurantTemplate,
+  createSkeletonDetailTemplate,
 };
