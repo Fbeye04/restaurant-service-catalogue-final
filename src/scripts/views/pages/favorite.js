@@ -7,45 +7,49 @@ const Favorite = {
     return `
       <div class="content">
         <h2 class="content__heading">Your Favorite Restaurants</h2>
-        <div id="restaurant-list" class="card-container">
-          
+        <div id="search-container">
+          <input 
+            id="query" 
+            type="text" 
+            placeholder="Search favorite restaurants..."
+          >
         </div>
-        <div id="empty-favorite-message" style="display: none;">
-          <p>You haven't added any restaurants to your favorites yet.</p>
+        <div id="restaurant-list" class="card-container">
         </div>
       </div>
     `;
   },
 
   async afterRender() {
-    try {
-      const restaurants = await FavoriteRestaurantIdb.getAllRestaurants();
-      const restaurantContainer = document.querySelector('#restaurant-list');
-      const emptyMessage = document.querySelector('#empty-favorite-message');
+    const restaurantList = document.getElementById('restaurant-list');
+    const searchElement = document.getElementById('query');
 
-      // Clear existing content
-      restaurantContainer.innerHTML = '';
-
-      // Pastikan restaurants adalah array dan memiliki data
-      if (!Array.isArray(restaurants) || restaurants.length === 0) {
-        emptyMessage.style.display = 'block';
+    const renderResults = (restaurants) => {
+      restaurantList.innerHTML = '';
+      if (restaurants.length === 0) {
+        // Mengubah pesan sesuai dengan ekspektasi test
+        const emptyMessage = searchElement.value
+          ? '<div id="empty-favorite-message">No restaurants found matching your search</div>'
+          : '<div id="empty-favorite-message">You haven\'t added any restaurants to your favorites yet</div>';
+        restaurantList.innerHTML = emptyMessage;
         return;
       }
-
-      // Sembunyikan pesan kosong jika ada data
-      emptyMessage.style.display = 'none';
-
-      // Render restaurant cards
       restaurants.forEach((restaurant) => {
-        const restaurantCard = createRestaurantCard(restaurant);
-        restaurantContainer.appendChild(restaurantCard);
+        const card = createRestaurantCard(restaurant);
+        restaurantList.appendChild(card);
       });
-    } catch (error) {
-      console.error('Error loading favorite restaurants:', error);
-      const restaurantContainer = document.querySelector('#restaurant-list');
-      restaurantContainer.innerHTML =
-        '<div class="error-message">Failed to load favorite restaurants. Please try again later.</div>';
-    }
+    };
+
+    // Initial render
+    const restaurants = await FavoriteRestaurantIdb.getAllRestaurants();
+    renderResults(restaurants);
+
+    // Handle search
+    searchElement.addEventListener('input', async (event) => {
+      const query = event.target.value;
+      const results = await FavoriteRestaurantIdb.searchRestaurants(query);
+      renderResults(results);
+    });
   },
 };
 
