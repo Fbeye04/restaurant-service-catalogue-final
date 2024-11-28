@@ -10,13 +10,14 @@ const Home = {
     return `
       <section class="hero" role="banner">
         <picture>
-          <source media="(max-width: 600px)" srcset="./images/heros/hero-image_1-small.jpg">
-          <source media="(min-width: 601px)" srcset="./images/heros/hero-image_1-large.jpg">
+          <source media="(max-width: 600px)" srcset="/images/heros/hero-image_1-small.jpg">
+          <source media="(min-width: 601px)" srcset="/images/heros/hero-image_1-large.jpg">
           <img 
-            src="./images/heros/hero-image_1-large.jpg"
+            src="/images/heros/hero-image_1-large.jpg"
             alt="RestoMate featured restaurants banner"
             class="hero-image"
-            loading="lazy"
+            fetchpriority="high"
+            onerror="this.onerror=null; this.src='/images/heros/hero-image_1-large.jpg';"
           >
         </picture>
       </section>
