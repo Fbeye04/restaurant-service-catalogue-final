@@ -1,6 +1,7 @@
 // File: src/scripts/data/favorite-restaurant-idb.js
 import { openDB } from 'idb';
 import CONFIG from '../globals/config';
+import filter from 'lodash.filter';
 
 const { DATABASE_NAME, DATABASE_VERSION, OBJECT_STORE_NAME } = CONFIG;
 
@@ -31,6 +32,15 @@ const FavoriteRestaurantIdb = {
 
   async deleteRestaurant(id) {
     return (await dbPromise).delete(OBJECT_STORE_NAME, id);
+  },
+
+  async searchRestaurants(query) {
+    const restaurants = await this.getAllRestaurants();
+    return filter(restaurants, (restaurant) => {
+      const loweredCaseRestaurantName = (restaurant.name || '-').toLowerCase();
+      const loweredCaseQuery = query.toLowerCase();
+      return loweredCaseRestaurantName.includes(loweredCaseQuery);
+    });
   },
 };
 
