@@ -23,10 +23,10 @@ const createRestaurantCard = (restaurant) => {
   imageContainer.className = 'card-image';
 
   const image = document.createElement('img');
-  image.src = `${CONFIG.BASE_URL}/images/small/${restaurant.pictureId}`;
+  image.src = ''; // Hapus src
+  image.dataset.src = `${CONFIG.BASE_URL}/images/small/${restaurant.pictureId}`; // Gunakan data-src
   image.alt = `Restaurant ${restaurant.name} in ${restaurant.city}`;
-  image.className = 'restaurant-image';
-  image.loading = 'lazy';
+  image.className = 'restaurant-image lazyload'; // Tambahkan class lazyload
 
   const city = document.createElement('span');
   city.className = 'city';
@@ -89,7 +89,9 @@ const createLikedRestaurantButtonTemplate = () => `
 const createRestaurantDetailTemplate = (restaurant) => `
   <div class="detail">
     <h2 class="restaurant__name">${restaurant.name}</h2>
-    <img class="restaurant__poster" src="${CONFIG.BASE_URL}/images/medium/${restaurant.pictureId}" alt="${restaurant.name}" />
+    <img class="restaurant__poster lazyload" 
+         data-src="${CONFIG.BASE_URL}/images/medium/${restaurant.pictureId}" 
+         alt="${restaurant.name}" />
     <div class="restaurant__info">
       <div class="restaurant__info-header">
         <h3>Information</h3>
