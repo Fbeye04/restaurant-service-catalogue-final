@@ -4,6 +4,9 @@ const assert = require('assert');
 
 Feature('Liking Restaurants');
 
+// Menambahkan variabel global untuk menyimpan judul restaurant
+let firstRestaurantTitle = '';
+
 Before(({ I }) => {
   I.amOnPage('/#/favorite');
 });
@@ -26,7 +29,7 @@ Scenario('liking one restaurant', async ({ I }) => {
   // Melihat restaurant pertama dan mengklik untuk detail
   I.seeElement('.card a');
   const firstRestaurant = locate('.card-title').first();
-  const firstRestaurantTitle = await I.grabTextFrom(firstRestaurant);
+  firstRestaurantTitle = await I.grabTextFrom(firstRestaurant);
   I.click(firstRestaurant);
 
   // Melihat tombol like dan mengkliknya
@@ -42,4 +45,34 @@ Scenario('liking one restaurant', async ({ I }) => {
   assert.strictEqual(firstRestaurantTitle, likedRestaurantTitle);
 });
 
-// ... rest of test code remains the same ...
+// Menambahkan skenario unlike restaurant
+Scenario('unliking one restaurant', async ({ I }) => {
+  // Like restaurant terlebih dahulu
+  I.amOnPage('/');
+  I.seeElement('.card a');
+  const firstRestaurant = locate('.card-title').first();
+  firstRestaurantTitle = await I.grabTextFrom(firstRestaurant);
+  I.click(firstRestaurant);
+  I.seeElement('#likeButton');
+  I.click('#likeButton');
+
+  // Pergi ke halaman favorite
+  I.amOnPage('/#/favorite');
+  I.seeElement('.card');
+
+  // Klik restaurant yang disukai
+  I.click('.card-title');
+
+  // Unlike restaurant
+  I.seeElement('#likeButton');
+  I.click('#likeButton');
+
+  // Kembali ke halaman favorite
+  I.amOnPage('/#/favorite');
+
+  // Verifikasi restaurant sudah tidak ada di favorite
+  I.see(
+    "You haven't added any restaurants to your favorites yet",
+    '#empty-favorite-message'
+  );
+});
